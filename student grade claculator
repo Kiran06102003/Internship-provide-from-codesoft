@@ -1,0 +1,34 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class task {
+   
+
+    public static void main(String[] args) {
+       
+        Map<String, Integer> grades = new HashMap<>();
+        grades.put("Math", 85);
+        grades.put("English", 90);
+        grades.put("History", 78);
+        grades.put("Science", 92);
+        grades.put("Art", 88);
+
+        
+        int totalGrades = 0;
+        for (int grade : grades.values()) {
+            totalGrades += grade;
+        }
+
+        int numSubjects = grades.size();
+
+       
+        double averageGrade = (double) totalGrades / numSubjects;
+
+        System.out.println("Total of all grades: " + totalGrades);
+        System.out.println("Average grade: " + String.format("%.2f", averageGrade));
+    }
+}
+
+OUTPUT:
+Total of all grades: 433
+Average grade: 86.60
