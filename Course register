@@ -1,0 +1,166 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+class Course {
+    private String courseId;
+    private String courseName;
+
+    public Course(String courseId, String courseName) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public String toString() {
+        return courseId + ": " + courseName;
+    }
+}
+
+class Student {
+    private String studentId;
+    private String studentName;
+    private List<Course> courses;
+
+    public Student(String studentId, String studentName) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.courses = new ArrayList<>();
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void registerCourse(Course course) {
+        if (!courses.contains(course)) {
+            courses.add(course);
+            System.out.println(studentName + " has registered for " + course.getCourseName());
+        } else {
+            System.out.println(studentName + " is already registered for " + course.getCourseName());
+        }
+    }
+
+    public void displayCourses() {
+        System.out.println(studentName + " is registered for the following courses:");
+        for (Course course : courses) {
+            System.out.println(course);
+        }
+    }
+}
+
+class RegistrationSystem {
+    private Map<String, Student> students;
+    private Map<String, Course> courses;
+
+    public RegistrationSystem() {
+        students = new HashMap<>();
+        courses = new HashMap<>();
+    }
+
+    public void addStudent(Student student) {
+        students.put(student.getStudentId(), student);
+    }
+
+    public void addCourse(Course course) {
+        courses.put(course.getCourseId(), course);
+    }
+
+    public void registerStudentForCourse(String studentId, String courseId) {
+        Student student = students.get(studentId);
+        Course course = courses.get(courseId);
+
+        if (student != null && course != null) {
+            student.registerCourse(course);
+        } else {
+            System.out.println("Invalid student ID or course ID.");
+        }
+    }
+
+    public void displayStudentCourses(String studentId) {
+        Student student = students.get(studentId);
+
+        if (student != null) {
+            student.displayCourses();
+        } else {
+            System.out.println("Invalid student ID.");
+        }
+    }
+
+    public static void main(String[] args) {
+        RegistrationSystem system = new RegistrationSystem();
+        Scanner scanner = new Scanner(System.in);
+        Student student1 = new Student("S001", "Alice");
+        Student student2 = new Student("S002", "Bob");
+        system.addStudent(student1);
+        system.addStudent(student2);
+
+        Course course1 = new Course("C001", "Mathematics");
+        Course course2 = new Course("C002", "Physics");
+        system.addCourse(course1);
+        system.addCourse(course2);
+
+        while (true) {
+            System.out.println("\n1. Register Student for Course");
+            System.out.println("2. Display Student Courses");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+            int option = scanner.nextInt();
+            scanner.nextLine();  
+
+            switch (option) {
+                case 1:
+                    System.out.print("Enter student ID: ");
+                    String studentId = scanner.nextLine();
+                    System.out.print("Enter course ID: ");
+                    String courseId = scanner.nextLine();
+                    system.registerStudentForCourse(studentId, courseId);
+                    break;
+
+                case 2:
+                    System.out.print("Enter student ID: ");
+                    studentId = scanner.nextLine();
+                    system.displayStudentCourses(studentId);
+                    break;
+
+                case 3:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                }    
+            }
+        }
+    }
+
+OUTPUT:
+1. Register Student for Course
+2. Display Student Courses
+3. Exit
+Choose an option: 1       
+Enter student ID: S001
+Enter course ID: C001
+Alice has registered for Mathematics
+
+1. Register Student for Course
+2. Display Student Courses
+3. Exit
+Choose an option: 2
+Enter student ID: S001
+Alice is registered for the following courses:
+C001: Mathematics
